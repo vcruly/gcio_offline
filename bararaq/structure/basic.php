@@ -96,8 +96,34 @@
             </a>
         </div>
 
-        <div class="topbar-item nav-user"><a class="py-1 px-2 rounded bg-dark bg-opacity-50"><?php echo $user_data["nombre"] ?? ""; ?></a></div>
+        <div class="topbar-item nav-user">
+        <div class="dropdown">
 
+            <a class="topbar-link dropdown-toggle drop-arrow-none px-2" data-bs-toggle="dropdown" data-bs-offset="0,16" href="#!" aria-haspopup="false"
+               aria-expanded="false">
+                <img id="connection-status-icon" src="assets/images/icons/offline.png" width="22" class="rounded-circle me-lg-2 d-flex" alt="user-image">
+                <div class="d-lg-flex align-items-center gap-1 d-none">
+                    <h5 class="my-0"><?php echo $user_data["nombre"] ?? ""; ?></h5>
+                    <i class="ti ti-chevron-down align-middle"></i>
+                </div>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-end">
+                <a href="" data-bs-toggle="modal" data-bs-target="#cambiar-clave" class="dropdown-item">
+                    <i class="ti ti-settings-2 me-2 fs-17 align-middle"></i>
+                    <span class="align-middle">Cambiar contrase&ntilde;a</span>
+                </a>
+
+                <div class="dropdown-divider"></div>
+
+                <a href="salir.php" class="dropdown-item text-danger fw-semibold">
+                    <i class="ti ti-logout-2 me-2 fs-17 align-middle"></i>
+                    <span class="align-middle">Salir</span>
+                </a>
+            </div>
+
+        </div>
+        </div>
 
     </div>
 
@@ -140,7 +166,11 @@
 </header>
 
 
-<?php include SITE_DIRECTORY."/bararaq/components/modales/abrir_turno.php"; ?>
+<?php
+
+    include SITE_DIRECTORY."/bararaq/components/modales/abrir_turno.php";
+    include SITE_DIRECTORY."/bararaq/components/modales/cambiar_clave.php";
+?>
 
 <div class="content-page">
     <div class="container-fluid"> <?php include "bararaq/content/$content"; ?> </div>
@@ -149,7 +179,7 @@
     <div class="container-fluid">
     <div class="row">
         <div class="col-md-6 text-center text-md-start">© <?php echo getdate()["year"]; ?>  <span class="fw-semibold">CAGDE</span></div>
-        <div class="col-md-6"><div class="text-md-end d-none d-md-block"></div></div>
+        <div class="col-md-6"><div class="text-md-end d-none d-md-block"><?php echo file_get_contents("v.txt"); ?></div></div>
     </div>
     </div>
     </footer>
@@ -179,6 +209,7 @@
     <script><?php echo $js_scripts; ?></script>
     <script src="assets/js/operaciones.js?v=1.6"></script>
     <script src="assets/js/cerrar_turno.js?v=1.2"></script>
+    <script>internet_monitor();</script>
 
 
 </div>

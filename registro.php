@@ -6,25 +6,28 @@
 
 #-------------------------------------------------- ACCESS & SECURITY --------------------------------------------------#
 
-    $user_data = access_control();
-
-#------------------------------------------------ INIT SCRIPT/PAGE DATA ------------------------------------------------#
-
     $js_scripts = "";
     $msg = "";
 
+#------------------------------------------------ INIT SCRIPT/PAGE DATA ------------------------------------------------#
+
+
 #--------------------------------------------------- FUNCTIONALITIES ---------------------------------------------------#
 
-#Abrir turno
-if( !empty($_POST["fondo"]) ){
+    if( !empty($_POST["email"]) && !empty($_POST["password"]) ){
 
-    abrir_turno($_POST["fondo"], $_POST["nota"] ?? "", $user_data);
-    $user_data = access_control();
-}
+        #Buscar primero en el usuario local, si esta verificado, proceder al login offline
+        #Si el usuario no existe local o no esta verificado, hacer el login online
+
+        $userData = login($_POST["email"], $_POST["password"]);
+
+        if($userData){ header("location:".SITE_HTTP); }else{ $msg = "<div class='alert alert-danger text-center' role='alert'>Error! Credenciales incorrectas</div>"; }
+    }
 
 #------------------------------------------------- STRUCTURE & TEMPLATE ------------------------------------------------#
 
-    $content = "index.php";
-    include "bararaq/structure/basic.php";
+    $content = "registro.php";
+    include "bararaq/structure/plain.php";
+
 
  ?>

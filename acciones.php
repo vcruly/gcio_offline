@@ -21,13 +21,14 @@ if(!empty($_GET)){
 
 
         #Actualizar aplicacion
-        case "actualizar": break;
+        case "actualizar": exec("cmd /c C:/GCIO/scripts/actualizar.bat 2>&1", $output); break;
 
         #Sincronizar cambios locales con la nube
         case "sincronizar": break;
 
         #Actualizar la base de datos
-        case "database": break;
+        #Pide el esquema listado de mercancias
+        case "db": break;
 
     }
 

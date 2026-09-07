@@ -8,7 +8,7 @@
 
 // -------------------------------------------------- GLOBALES --------------------------------------------------
 
-const GCIO_API = window.location.hostname == "localhost" ? "http://localhost/gcio/api/" : "https://gcio.net/api/";
+const GCIO_API = window.location.hostname == "http://localhost:1991/api/"
 
 jQuery().select2&&$('[data-toggle="select2"]').select2();
 
@@ -32,14 +32,6 @@ if(fechas = document.getElementById("fechas")){
     });
 }
 
-
-if(rol = document.getElementById("rol")){
-
-    rol.addEventListener("change", (e)=>{
-
-        if(e.target.value == "4") { document.getElementById("area").disabled = false; }else{ document.getElementById("area").disabled = true; }
-    });
-}
 
 // -------------------------------------------------- FUNCIONES --------------------------------------------------
 
@@ -160,7 +152,41 @@ masquerade2 = '';
 }
 
 
-function themeToggle(){
+function internet_monitor() {
+
+    const icon = document.getElementById('connection-status-icon');
+    const ONLINE_IMG = 'assets/images/icons/online.png';
+    const OFFLINE_IMG = 'assets/images/icons/offline.png';
+    const INTERVALO = 10000; // 10 segundos
+
+    function actualizarIcono(online) {
+        icon.src = online ? ONLINE_IMG : OFFLINE_IMG;
+    }
+
+    async function verificarConexionReal() {
+        try {
+            const respuesta = await fetch('https://gcio.com/ping.php', {
+                method: 'HEAD',
+                cache: 'no-store'
+            });
+            actualizarIcono(respuesta.ok);
+        } catch (error) {
+            actualizarIcono(false);
+        }
+    }
+
+    // Verificación inicial
+    verificarConexionReal();
+
+    // Verificación periódica
+    setInterval(verificarConexionReal, INTERVALO);
+
+    // Reaccionar también a eventos del navegador
+    window.addEventListener('online', verificarConexionReal);
+    window.addEventListener('offline', () => actualizarIcono(false));
+}
+
+/*function themeToggle(){
 
     let e = document.documentElement;
     var t = document.getElementById("theme-toggle"),
@@ -170,6 +196,6 @@ function themeToggle(){
             var t = "dark"===e.getAttribute("data-bs-theme") ? "light": "dark";
                 e.setAttribute("data-bs-theme", t), localStorage.setItem("theme", t)
         })
-}
+}*/
 
 

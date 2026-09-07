@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+<style>
+
+.actualizacion {
+    display: none;
+
+    width: 560px;
+    max-width: calc(100% - 40px);
+
+    margin: 30px auto;
+    padding: 20px;
+
+    background: #f3f3f3;
+
+    border: 1px solid #b5b5b5;
+    border-radius: 6px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.18);
+
+    font-family: Arial, sans-serif;
+}
+
+
+.actualizacion.visible {
+    display: block;
+}
+
+
+/* =========================================
+   TITULO
+   ========================================= */
+
+.actualizacion-titulo {
+
+    font-size: 18px;
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+    color: #333;
+}
+
+
+/* =========================================
+   ESTADO
+   ========================================= */
+
+.estado-actualizacion {
+
+    font-size: 14px;
+
+    margin-bottom: 10px;
+
+    color: #444;
+
+    min-height: 20px;
+}
+
+
+/* =========================================
+   BARRA
+   ========================================= */
+
+.barra-contenedor {
+
+    width: 100%;
+    height: 22px;
+
+    background: #e5e5e5;
+
+    border: 1px solid #999;
+
+    padding: 2px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        inset 0 1px 2px rgba(0,0,0,.2);
+}
+
+
+.barra-progreso {
+
+    width: 0%;
+    height: 100%;
+
+    transition: width 0.3s ease;
+
+    background-color: #2f7ed8;
+
+    background-image:
+        repeating-linear-gradient(
+            90deg,
+            rgba(255,255,255,.18) 0px,
+            rgba(255,255,255,.18) 8px,
+            transparent 8px,
+            transparent 10px
+        );
+}
+
+
+/* =========================================
+   PORCENTAJE
+   ========================================= */
+
+.porcentaje {
+
+    text-align: right;
+
+    font-size: 13px;
+
+    margin-top: 5px;
+
+    color: #555;
+}
+
+
+/* =========================================
+   LOG
+   ========================================= */
+
+.log-titulo {
+
+    font-size: 13px;
+    font-weight: bold;
+
+    margin-top: 18px;
+    margin-bottom: 5px;
+
+    color: #444;
+}
+
+
+.log-actualizacion {
+
+    width: 100%;
+    height: 190px;
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+    padding: 10px;
+
+    overflow-y: auto;
+
+    background: #1e1e1e;
+
+    color: #dcdcdc;
+
+    border: 1px solid #555;
+
+    border-radius: 3px;
+
+    font-family: Consolas, "Courier New", monospace;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    white-space: pre-wrap;
+}
+
+
+/* =========================================
+   RESULTADO
+   ========================================= */
+
+.resultado-actualizacion {
+
+    margin-top: 12px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+
+.resultado-actualizacion.exito {
+    color: #237a32;
+}
+
+
+.resultado-actualizacion.error {
+    color: #b3261e;
+}
+
+
+</style>
+
+<button type="button" id="btnActualizar">
+    Actualizar GCIO
+</button>
+
+
+<div id="actualizacion" class="actualizacion">
+
+    <div class="actualizacion-titulo">
+        Actualización de GCIO
+    </div>
+
+    <div id="estadoActualizacion" class="estado-actualizacion">
+        Preparando actualización...
+    </div>
+
+
+    <div class="barra-contenedor">
+
+        <div
+            id="barraProgreso"
+            class="barra-progreso">
+        </div>
+
+    </div>
+
+
+    <div
+        id="porcentaje"
+        class="porcentaje">
+        0%
+    </div>
+
+
+    <div class="log-titulo">
+        Información
+    </div>
+
+
+    <pre
+        id="logActualizacion"
+        class="log-actualizacion"></pre>
+
+
+    <div
+        id="resultadoActualizacion"
+        class="resultado-actualizacion">
+    </div>
+
+</div>
+
+<script>
+
+const btnActualizar = document.getElementById('btnActualizar');
+
+const ventanaActualizacion =
+    document.getElementById('actualizacion');
+
+const barraProgreso =
+    document.getElementById('barraProgreso');
+
+const porcentaje =
+    document.getElementById('porcentaje');
+
+const estadoActualizacion =
+    document.getElementById('estadoActualizacion');
+
+const logActualizacion =
+    document.getElementById('logActualizacion');
+
+const resultadoActualizacion =
+    document.getElementById('resultadoActualizacion');
+
+
+let intervaloActualizacion = null;
+
+
+/* =========================================================
+   INICIAR ACTUALIZACION
+   ========================================================= */
+
+btnActualizar.addEventListener('click', iniciarActualizacion);
+
+
+function iniciarActualizacion() {
+
+    // Mostrar ventana
+    ventanaActualizacion.classList.add('visible');
+
+
+    // Limpiar datos anteriores
+    barraProgreso.style.width = '0%';
+
+    porcentaje.textContent = '0%';
+
+    estadoActualizacion.textContent =
+        'Iniciando actualización...';
+
+    logActualizacion.textContent = '';
+
+    resultadoActualizacion.textContent = '';
+
+    resultadoActualizacion.className =
+        'resultado-actualizacion';
+
+
+    // Desactivar botón
+    btnActualizar.disabled = true;
+
+
+    // Ejecutar PHP
+    fetch('actualizar.php', {
+        method: 'POST',
+        cache: 'no-cache'
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (!data.success) {
+
+            mostrarError(data.message);
+
+            return;
+        }
+
+
+        // Comenzar a consultar estado
+        consultarEstado();
+
+
+        intervaloActualizacion =
+            setInterval(consultarEstado, 500);
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        mostrarError(
+            'No se pudo iniciar la actualización.'
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   CONSULTAR ESTADO
+   ========================================================= */
+
+function consultarEstado() {
+
+    fetch(
+        'actualizacion_estado.php?t=' +
+        Date.now(),
+        {
+            cache: 'no-cache'
+        }
+    )
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        actualizarInterfaz(data);
+
+
+        if (
+            data.state === 'success' ||
+            data.state === 'error'
+        ) {
+
+            detenerConsulta();
+
+
+            if (data.state === 'success') {
+
+                mostrarExito(
+                    'Actualización completada correctamente.'
+                );
+
+            }
+            else {
+
+                mostrarError(
+                    data.message ||
+                    'La actualización ha fallado.'
+                );
+
+            }
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            'Error consultando actualización:',
+            error
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR INTERFAZ
+   ========================================================= */
+
+function actualizarInterfaz(data) {
+
+    let progress =
+        parseInt(data.progress, 10);
+
+
+    if (isNaN(progress)) {
+        progress = 0;
+    }
+
+
+    progress =
+        Math.max(
+            0,
+            Math.min(100, progress)
+        );
+
+
+    barraProgreso.style.width =
+        progress + '%';
+
+
+    porcentaje.textContent =
+        progress + '%';
+
+
+    estadoActualizacion.textContent =
+        data.message || '';
+
+
+    if (data.log !== undefined) {
+
+        const estabaAbajo =
+            logActualizacion.scrollHeight -
+            logActualizacion.scrollTop -
+            logActualizacion.clientHeight;
+
+
+        const seguirScroll =
+            estabaAbajo < 30;
+
+
+        logActualizacion.textContent =
+            data.log;
+
+
+        if (seguirScroll) {
+
+            logActualizacion.scrollTop =
+                logActualizacion.scrollHeight;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   DETENER CONSULTA
+   ========================================================= */
+
+function detenerConsulta() {
+
+    if (intervaloActualizacion !== null) {
+
+        clearInterval(
+            intervaloActualizacion
+        );
+
+        intervaloActualizacion = null;
+
+    }
+
+    btnActualizar.disabled = false;
+
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function mostrarError(mensaje) {
+
+    detenerConsulta();
+
+
+    estadoActualizacion.textContent =
+        'Error durante la actualización';
+
+
+    resultadoActualizacion.textContent =
+        mensaje;
+
+
+    resultadoActualizacion.className =
+        'resultado-actualizacion error';
+
+
+    barraProgreso.style.width =
+        '100%';
+
+}
+
+
+/* =========================================================
+   EXITO
+   ========================================================= */
+
+function mostrarExito(mensaje) {
+
+    detenerConsulta();
+
+
+    estadoActualizacion.textContent =
+        'Proceso terminado';
+
+
+    resultadoActualizacion.textContent =
+        mensaje;
+
+
+    resultadoActualizacion.className =
+        'resultado-actualizacion exito';
+
+
+    barraProgreso.style.width =
+        '100%';
+
+}
+
+</script>
+
+</body>
+</html>
