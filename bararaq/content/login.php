@@ -20,7 +20,7 @@
             <label class="form-label">Email<span class="text-danger">*</span></label>
             <div class="input-group">
                 <span class="input-group-text bg-light"><i class="ti ti-mail text-muted fs-xl"></i></span>
-                <input type="email" class="form-control" required>
+                <input type="email" name="email" class="form-control" required>
             </div>
             </div>
 
@@ -28,7 +28,7 @@
             <label class="form-label">Contrase&ntilde;a <span class="text-danger">*</span></label>
             <div class="input-group">
                 <span class="input-group-text bg-light"><i class="ti ti-lock-password text-muted fs-xl"></i></span>
-                <input type="password" class="form-control" required>
+                <input type="password" name="password" class="form-control" required>
             </div>
             </div>
 
