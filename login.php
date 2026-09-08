@@ -11,14 +11,14 @@
 
 #------------------------------------------------ INIT SCRIPT/PAGE DATA ------------------------------------------------#
 
-         echo $_SERVER['HTTP_HOST'];
+      
 #--------------------------------------------------- FUNCTIONALITIES ---------------------------------------------------#
 
     if( !empty($_POST["email"]) && !empty($_POST["password"]) ){
 
         $user_data = login($_POST["email"], $_POST["password"]);
 
-        //if($user_data){ header("location:".SITE_HTTP); }else{ $msg = "<div class='alert alert-danger text-center' role='alert'>Error! Credenciales incorrectas</div>"; }
+        if($user_data){ header("location:".SITE_HTTP); }else{ $msg = "<div class='alert alert-danger text-center' role='alert'>Error! Credenciales incorrectas</div>"; }
     }
 
 #------------------------------------------------- STRUCTURE & TEMPLATE ------------------------------------------------#
