@@ -19,8 +19,7 @@ function login($email, $password) {
 
             setcookie(SITE_COOKIE, $user_data["id"], [
                 "expires" => time() + (9999 * 24 * 60 * 60),
-                "path" => "/",
-                "domain" => $_SERVER['HTTP_HOST'],
+                "path" => "/"
                 "secure" => false,
                 "httponly" => true,
             ]);
