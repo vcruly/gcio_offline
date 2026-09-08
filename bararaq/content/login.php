@@ -15,7 +15,7 @@
             <p class="text-muted w-lg-75 mx-auto">Utilice sus credenciales si ya tiene cuenta registrada</p>
         </div>
 
-        <form>
+        <form method="post">
             <div class="mb-3">
             <label class="form-label">Email<span class="text-danger">*</span></label>
             <div class="input-group">
