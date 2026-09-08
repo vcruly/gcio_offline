@@ -21,7 +21,7 @@ function login($email, $password) {
                 "expires" => time() + (9999 * 24 * 60 * 60),
                 "path" => "/",
                 "domain" => $_SERVER['HTTP_HOST'],
-                "secure" => LOCALHOST ? false : true,
+                "secure" => false
                 "httponly" => true,
             ]);
 
