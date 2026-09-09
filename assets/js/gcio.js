@@ -165,7 +165,7 @@ function internet_monitor() {
 
     async function verificarConexionReal() {
         try {
-            const respuesta = await fetch('https://gcio.com/api/ping', {
+            const respuesta = await fetch('https://gcio.net/api/ping', {
                 method: 'HEAD',
                 cache: 'no-store'
             });
