@@ -40,12 +40,6 @@
         <span><i class="ti ti-message-reply"></i> <a href="#!" class="link-reset"><?php echo file_get_contents("v.txt"); ?></a></span>
         <span><i class="ti ti-clock"></i> Hora: <?php echo date("h:i:s A"); ?></span>
         <span><i class="ti ti-users"></i> Usuario: <?php echo $user_data["nombre"]; ?></span>
-        <?php
-
-            if(empty($output)){ echo "<span class='d-flex align-items-center gap-1'><span class='badge text-bg-danger'>ERROR</span></span>"; }
-            else{ echo "<span class='d-flex align-items-center gap-1'><span class='badge text-bg-success'>OK</span></span>"; }
-
-         ?>
     </p>
     </div>
 
