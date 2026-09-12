@@ -21,35 +21,35 @@ if(!empty($respuesta)){
 
     if(!empty($respuesta["mercancias"])){
 
-        $mercancias = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Listado de mercancias</li> ';
+        $mercancias = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Listado de mercancias</li>';
         actualizarMercancias($respuesta["mercancias"]);
         actualizarVersion("mercancias", $respuesta["v_mercancias"]);
     }
 
     if(!empty($respuesta["medidas"])){
 
-        $medidas = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Medidas de productos</li> ';
+        $medidas = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Medidas de productos</li>';
         actualizarMedidas($respuesta["medidas"]);
         actualizarVersion("medidas", $respuesta["v_medidas"]);
     }
 
     if(!empty($respuesta["socios"])){
 
-        $socios = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Socios</li> ';
+        $socios = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Socios</li>';
         actualizarSocios($respuesta["socios"]);
         actualizarVersion("socios", $respuesta["v_socios"]);
     }
 
     if(!empty($respuesta["monedas"])){
 
-        $monedas = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Monedas</li> ';
+        $monedas = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Monedas</li>';
         actualizarMonedas($respuesta["monedas"]);
         actualizarVersion("monedas", $respuesta["v_monedas"]);
     }
 
     if(!empty($respuesta["categorias"])){
 
-        $categorias = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Categorias</li> ';
+        $categorias = '<li class="d-flex align-items-center mb-2"><span class="ti ti-check fs-lg text-success me-2"></span> Categorias</li>';
         actualizarCategorias($respuesta["categorias"]);
         actualizarVersion("categorias", $respuesta["v_categorias"]);
     }

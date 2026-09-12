@@ -5,25 +5,37 @@
 <div class="card mb-1">
 
     <div class="card-body">
-    <div class="d-flex align-items-center mb-4">
-        <div class="flex-shrink-0">
-        <div class="avatar-xl rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center">
-            <i class="ti ti-device-desktop-down fs-24 text-primary"></i>
-        </div>
+
+        <div class="d-flex align-items-center mb-4">
+            <div class="flex-shrink-0">
+            <div class="avatar-xl rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center">
+                <i class="ti ti-device-desktop-down fs-24 text-primary"></i>
+            </div>
+            </div>
+
+            <div class="ms-3">
+                <h5 class="text-uppercase fw-semibold">Actualizacion de la aplicacion</h5>
+                <p class="text-muted mb-0 fs-base">
+                <?php
+
+                    if(empty($output)){ print_r($output); }
+                    else{ echo "No se pudo actualizar. Contacte al soporte o revise su coneccion a internet."; };
+
+                ?>
+                </p>
+            </div>
         </div>
 
-        <div class="ms-3">
-            <h5 class="text-uppercase fw-semibold">Actualizacion de la aplicacion</h5>
-            <pre class="text-muted mb-0 fs-base">
-            <?php
+        <ul class="list-unstyled mb-3">
+        <?php
 
-                if(!empty($output)){ print_r($output); }
-                else{ echo "No se pudo actualizar. Contacte al soporte o revise su coneccion a internet."; };
+            for($i = 0; $i < count($output); $i++){
 
-            ?>
-            </pre>
-        </div>
-    </div>
+                echo "<li class='d-flex align-items-center mb-2'><span class='ti ti-check fs-lg text-success me-2'></span> {$output[$i]}</li>";
+            }
+         ?>
+         </ul>
+
     </div>
 
     <div class="card-footer">
