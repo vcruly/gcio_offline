@@ -1,35 +1,28 @@
 <?php
 
 
-function agregarCategoria($data){
+function actualizarCategorias($categorias){
 
-    $db = new SQLite3(INVENTARIO);
-    $ps = $db->prepare("INSERT INTO categorias VALUES(?,?)");
-    $ps->bindValue(1, generar_id($data["nombre"]), SQLITE3_TEXT);
-    $ps->bindValue(2, $data["nombre"], SQLITE3_TEXT);
-    $ps->bindValue(3, date("Y-m-d H:i"), SQLITE3_TEXT);
-    $ps->execute();
-    $db->close();
-}
+    #Inicializacion
+    $db = new SQLite3(DATA);
+    $db->exec(file_get_contents(LIBRARIES_DIRECTORY."/general/pragmas_sqlite.sql"));
 
+    #Se eliminan todas las categorias anteriores
+    $db->exec("delete from categorias");
 
-function actualizarCategoria($data){
+    #Operaciones por lotes para insertar las nuevas categorias
+    $db->exec('BEGIN TRANSACTION;');
+    $ps = $db->prepare("INSERT INTO categorias VALUES(?,?,?)");
 
-    $id = $data["actualizar"];
+    for($i = 0; $i < count($categorias); $i++){
 
-    $db = new SQLite3(INVENTARIO);
-    $ps = $db->prepare("UPDATE categorias SET nombre = ? WHERE id = '$id' ");
-    $ps->bindValue(1, $data["nombre"], SQLITE3_TEXT);
-    $ps->execute();
-    $db->close();
-}
+        $ps->bindValue(1, $categorias[$i]["id"], SQLITE3_TEXT);
+        $ps->bindValue(2, $categorias[$i]["nombre"], SQLITE3_TEXT);
+        $ps->bindValue(3, $categorias[$i]["fecha"], SQLITE3_TEXT);
+        $ps->execute();
+    }
 
-
-function eliminarCategoria($id){
-
-    $db = new SQLite3(INVENTARIO);
-    $db->exec("DELETE FROM categorias WHERE id = '$id'");
-    $db->exec("UPDATE productos SET categoria = '' WHERE categoria = '$id' ");
+    $db->exec('COMMIT;');
     $db->close();
 }
 

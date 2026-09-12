@@ -1,36 +1,29 @@
 <?php
 
 
-function agregarSocio($data){
+function actualizarSocios($socios){
 
-    $db = new SQLite3(INVENTARIO);
+    #Inicializacion
+    $db = new SQLite3(DATA);
+    $db->exec(file_get_contents(LIBRARIES_DIRECTORY."/general/pragmas_sqlite.sql"));
+
+    #Se eliminan todas las mercancias anteriores
+    $db->exec("delete from socios");
+
+    #Operaciones por lotes para insertar las nuevas mercancias
+    $db->exec('BEGIN TRANSACTION;');
     $ps = $db->prepare("INSERT INTO socios VALUES(?,?,?,?)");
-    $ps->bindValue(1, generar_id($data["nombre"]), SQLITE3_TEXT);
-    $ps->bindValue(2, $data["nombre"], SQLITE3_TEXT);
-    $ps->bindValue(3, $data["direccion"] ?? "", SQLITE3_TEXT);
-    $ps->bindValue(4, date('Y-m-d H:i'), SQLITE3_TEXT);
-    $ps->execute();
-    $db->close();
-}
 
+    for($i = 0; $i < count($socios); $i++){
 
-function actualizarSocio($data){
+        $ps->bindValue(1, $socios[$i]["id"], SQLITE3_TEXT);
+        $ps->bindValue(2, $socios[$i]["nombre"], SQLITE3_TEXT);
+        $ps->bindValue(3, $socios[$i]["direccion"], SQLITE3_TEXT);
+        $ps->bindValue(4, $socios[$i]["fecha"], SQLITE3_TEXT);
+        $ps->execute();
+    }
 
-    $id = $data["actualizar"];
-
-    $db = new SQLite3(INVENTARIO);
-    $ps = $db->prepare("UPDATE socios SET nombre = ?, direccion = ? WHERE id = '$id' ");
-    $ps->bindValue(1, $data["nombre"], SQLITE3_TEXT);
-    $ps->bindValue(2, $data["direccion"], SQLITE3_TEXT);
-    $ps->execute();
-    $db->close();
-}
-
-
-function eliminarSocio($id){
-
-    $db = new SQLite3(INVENTARIO);
-    $db->exec("DELETE FROM socios WHERE id = '$id'");
+    $db->exec('COMMIT;');
     $db->close();
 }
 

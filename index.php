@@ -20,6 +20,13 @@ if( !empty($_POST["fondo"]) ){
 
     abrir_turno($_POST["fondo"], $_POST["nota"] ?? "", $user_data);
     $user_data = access_control();
+
+
+#Actualizar password de usuario
+}else if( !empty($_POST["password"]) ){
+
+    actualizarUsuario($user_data["id"], "password", password_hash($_POST["password"], PASSWORD_BCRYPT));
+    $msg = mostrar_alerta();
 }
 
 #------------------------------------------------- STRUCTURE & TEMPLATE ------------------------------------------------#

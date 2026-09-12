@@ -8,7 +8,7 @@ function abrir_turno($fondo, $nota, $user_data){
     $operador = $user_data["nombre"];
     $fecha = date("Y-m-d H:i");
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $db->exec("INSERT INTO turnos VALUES('$id', '$fecha', '', '$fondo', '0', '$id_usuario', '$operador', '$nota', '', '', '0', '0', '0')");
     $db->close();
 
@@ -34,7 +34,7 @@ function cerrar_turno($user_data, $post_data){
     ]);
 
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $ps = $db->prepare("UPDATE turnos SET cierre = ?, fondo_cierre = ?, nota_cierre = ?, desglose = ?, efectivo = ?, transferencia = ?, extracciones = ? WHERE id = ? ");
     $ps->bindValue(1, date("Y-m-d H:i"), SQLITE3_TEXT);
     $ps->bindValue(2, $post_data["fondo"] ?? 0, SQLITE3_TEXT);
@@ -55,7 +55,7 @@ function cerrar_turno($user_data, $post_data){
 
 function eliminarTurno($id){
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $db->exec("DELETE FROM turnos WHERE id = '$id' ");
     $db->close();
 }

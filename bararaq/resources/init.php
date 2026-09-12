@@ -39,15 +39,16 @@
     include "libraries/seguridad/generacion.php";
     include "libraries/seguridad/proteccion.php";
 
+#----------------------------------------- SOCIOS ------------------------------------------#
+
+    include "libraries/socios/actions.php";
+    include "libraries/socios/gets.php";
+
 #----------------------------------------- TURNOS ------------------------------------------#
 
     include "libraries/turnos/actions.php";
     include "libraries/turnos/gets.php";
 
-#----------------------------------------- SOCIOS ------------------------------------------#
-
-    include "libraries/socios/actions.php";
-    include "libraries/socios/gets.php";
 
 #---------------------------------------- USUARIOS -----------------------------------------#
 

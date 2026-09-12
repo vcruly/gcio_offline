@@ -5,7 +5,7 @@ function operaciones(){
 
     $operaciones = [];
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $rs = $db->query("SELECT * FROM operaciones");
     while($row = $rs->fetchArray()){ $operaciones[] = $row; }
     $db->close();
@@ -65,7 +65,7 @@ function buscar_operaciones($postData){
     }
 
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $rs = $db->query("
         SELECT * FROM operaciones AS ope JOIN productos_operaciones AS po ON po.operacion = ope.id
         WHERE ope.tipo = '$tipo_operacion' AND ope.fecha BETWEEN '$desde' AND '$hasta'

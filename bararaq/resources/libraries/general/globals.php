@@ -13,6 +13,7 @@
         define("SITE_HTTP", "http://localhost/gcio_offline");
         define("LOCALHOST", "http://localhost");
         define("SITE_DIRECTORY", $_SERVER["DOCUMENT_ROOT"]."/gcio_offline/");
+        define("API_GCIO", "http://localhost/gcio/api/");
 
 
     #Produccion
@@ -21,6 +22,7 @@
         define("SITE_HTTP", "http://localhost:1991");
         define("LOCALHOST", "http://localhost:1991");
         define("SITE_DIRECTORY", $_SERVER["DOCUMENT_ROOT"]);
+        define("API_GCIO", "gcio.net/api/");
     }
 
 
@@ -29,7 +31,6 @@
 
 #---------------------------------------- DATABASES ----------------------------------------#
 
-    define("GENERAL", DB_DIRECTORY."general.db");
-    define("INVENTARIO", DB_DIRECTORY."inventario.db");
+    define("DATA", DB_DIRECTORY."data.db");
 
  ?>

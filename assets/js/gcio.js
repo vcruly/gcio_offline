@@ -154,25 +154,47 @@ masquerade2 = '';
 
 function internet_monitor() {
 
+    const btn_db = document.getElementById('btn-db');
+    const btn_app = document.getElementById('btn-app');
+    const btn_sinc = document.getElementById('btn-sinc');
+
+    const link_db = document.getElementById('link-db');
+    const link_app = document.getElementById('link-app');
+    const link_sinc = document.getElementById('link-sinc');
+
     const icon = document.getElementById('connection-status-icon');
     const ONLINE_IMG = 'assets/images/icons/online.png';
     const OFFLINE_IMG = 'assets/images/icons/offline.png';
-    const INTERVALO = 10000; // 10 segundos
+    const INTERVALO = 10000;
 
-    function actualizarIcono(online) {
+    function actualizarUI(online) {
+
+        if(!online){
+
+            btn_db.classList.add("border-0");
+            link_db.classList.add("text-danger");
+
+            btn_app.classList.add("border-0");
+            link_app.classList.add("text-danger");
+
+            btn_sinc.classList.add("border-0")
+            link_sinc.classList.add("text-danger")
+        }
+
         icon.src = online ? ONLINE_IMG : OFFLINE_IMG;
+        btn_db.disabled = online ? false : true;
+        btn_app.disabled = online ? false : true;
+        btn_sinc.disabled = online ? false : true;
+
     }
 
     async function verificarConexionReal() {
-        try {
-            const respuesta = await fetch('https://gcio.net/api/ping', {
-                method: 'HEAD',
-                cache: 'no-store'
-            });
-            actualizarIcono(respuesta.ok);
-        } catch (error) {
-            actualizarIcono(false);
-        }
+        try{
+
+            const respuesta = await fetch('https://gcio.net/api/ping', { method: 'HEAD', cache: 'no-store'});
+            actualizarUI(respuesta.ok);
+
+        }catch(error){ actualizarUI(false); }
     }
 
     // Verificación inicial
@@ -183,19 +205,8 @@ function internet_monitor() {
 
     // Reaccionar también a eventos del navegador
     window.addEventListener('online', verificarConexionReal);
-    window.addEventListener('offline', () => actualizarIcono(false));
+    window.addEventListener('offline', () => actualizarUI(false));
 }
 
-/*function themeToggle(){
-
-    let e = document.documentElement;
-    var t = document.getElementById("theme-toggle"),
-        o = localStorage.getItem("theme") || "light";
-        e.setAttribute("data-bs-theme", o),
-        t&&t.addEventListener("click", () => {
-            var t = "dark"===e.getAttribute("data-bs-theme") ? "light": "dark";
-                e.setAttribute("data-bs-theme", t), localStorage.setItem("theme", t)
-        })
-}*/
 
 

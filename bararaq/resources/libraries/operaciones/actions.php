@@ -41,7 +41,7 @@ function registrar_operacion($data){
     }
 
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $ps = $db->prepare("INSERT INTO operaciones VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     $ps->bindValue(1, $id, SQLITE3_TEXT);
     $ps->bindValue(2, $data["tipo"], SQLITE3_TEXT);
@@ -68,7 +68,7 @@ function registrar_operacion($data){
 #Son los pasos extras en el registro de operaciones
 function completar_operacion($productos, $area, $id_operacion, $accion = "+"){
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $db->exec(file_get_contents(LIBRARIES_DIRECTORY."/general/pragmas_sqlite.sql"));
     $db->exec('BEGIN TRANSACTION;');
 

@@ -1,25 +1,28 @@
 <div class="row justify-content-center mt-5">
-<div class="col-xxl-10">
-<div class="row">
 <div class="col-12">
+<div class="row justify-content-center">
+<div class="col-8">
 <div class="card mb-1">
 
     <div class="card-body">
-    <div class="d-flex gap-4 align-items-center">
-    <div class="flex-grow-1">
-        <p class="text-muted text-uppercase mb-2 fw-semibold">Actualizacion de la aplicacion</p>
-        <h4 class="fs-lg mb-2">
-            <a href="" class="link-reset"></a>
-        </h4>
-        <p class="text-muted mb-0 mt-4">
-        <?php
+    <div class="d-flex align-items-center mb-4">
+        <div class="flex-shrink-0">
+        <div class="avatar-xl rounded-circle bg-primary-subtle d-flex align-items-center justify-content-center">
+            <i class="ti ti-device-desktop-down fs-24 text-primary"></i>
+        </div>
+        </div>
 
-            if(!empty($output)){ print_r($output); }
-            else{ echo "No se pudo actualizar. Contacte al soporte o revise su coneccion a internet."; };
+        <div class="ms-3">
+            <h5 class="text-uppercase fw-semibold">Actualizacion de la aplicacion</h5>
+            <pre class="text-muted mb-0 fs-base">
+            <?php
 
-        ?>
-        </p>
-    </div>
+                if(!empty($output)){ print_r($output); }
+                else{ echo "No se pudo actualizar. Contacte al soporte o revise su coneccion a internet."; };
+
+            ?>
+            </pre>
+        </div>
     </div>
     </div>
 

@@ -79,21 +79,27 @@
         </div>
 
         <div class="topbar-item d-none d-sm-flex ms-1">
-            <a class="topbar-link" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Actualizar la base de datos" href="">
-                <i data-lucide="database" class="fs-xxl"></i>
-            </a>
+        <button id="btn-db" class="btn btn-tranparent p-0">
+        <a id="link-db" class="topbar-link" href="acciones.php?x=db" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Actualizar base de datos">
+            <i data-lucide="database" class="fs-xxl"></i>
+        </a>
+        </button>
         </div>
 
         <div class="topbar-item d-none d-sm-flex ms-1">
-            <a class="topbar-link" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Sincronizar con la nube">
-                <i data-lucide="cloud" class="fs-xxl"></i>
-            </a>
+        <button id="btn-sinc" class="btn btn-tranparent p-0">
+        <a id="link-sinc" class="topbar-link" href="acciones.php?x=sinc" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Sincronizar con la nube">
+            <i data-lucide="cloud" class="fs-xxl"></i>
+        </a>
+        </button>
         </div>
 
         <div class="topbar-item d-none d-sm-flex ms-1">
-            <a class="topbar-link" href="acciones.php?actualizar" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Actualizar la aplicacion">
-                <i data-lucide="monitor-down" class="fs-xxl"></i>
-            </a>
+        <button id="btn-app" class="btn btn-tranparent p-0">
+        <a id="link-app" class="topbar-link" href="acciones.php?x=app" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Actualizar aplicacion">
+            <i data-lucide="monitor-down" class="fs-xxl"></i>
+        </a>
+        </button>
         </div>
 
         <div class="topbar-item nav-user">
@@ -165,11 +171,10 @@
 </nav>
 </header>
 
-
 <?php
 
     include SITE_DIRECTORY."/bararaq/components/modales/abrir_turno.php";
-    include SITE_DIRECTORY."/bararaq/components/modales/cambiar_clave.php";
+    include SITE_DIRECTORY."/bararaq/components/modales/actualizar_password.php";
 ?>
 
 <div class="content-page">
@@ -192,7 +197,7 @@
     <script src="assets/plugins/moment/moment.min.js"></script>
     <script src="assets/plugins/daterangepicker/daterangepicker.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="assets/js/plugins/flatpickr.js"></script>
     <script src="assets/plugins/select2/select2.min.js"></script>
     <script src="assets/js/mathjs.js"></script>
     <script src="assets/js/form-wizard.js"></script>

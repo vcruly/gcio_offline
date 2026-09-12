@@ -222,25 +222,26 @@ function enviarDatos(){
     const efectivo = document.getElementById("efectivo").value;
     const transferencia = document.getElementById("transferencia").value;
 
-    const datos = {
-        total: parseFloat(document.getElementById("total").value) || 0,
-        productos: obtenerDatosTabla(),
-        tipo: operacion,
-        moneda: moneda,
-        operador: operador,
-        socio: socio,
-        area: area,
-        transferencia: transferencia,
-        efectivo: efectivo,
-        turno: turno,
-        nota: nota
-    };
+    let datos = new URLSearchParams();
+    datos.append('request', 'registrar_operacion');
 
-    fetch(GCIO_API + "index.php?request=registrar_operacion", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datos)
-    })
+    datos.append(
+        JSON.stringify({
+            total: parseFloat(document.getElementById("total").value) || 0,
+            productos: obtenerDatosTabla(),
+            tipo: operacion,
+            moneda: moneda,
+            operador: operador,
+            socio: socio,
+            area: area,
+            transferencia: transferencia,
+            efectivo: efectivo,
+            turno: turno,
+            nota: nota
+        })
+    );
+
+    fetch(GCIO_API, { method: "POST", credentials: 'include', body: datos })
     .then(res => res.text())
     .then(data => {
 

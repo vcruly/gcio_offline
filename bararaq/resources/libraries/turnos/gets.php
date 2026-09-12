@@ -3,7 +3,7 @@
 
 function turno($id){
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $rs = $db->query("SELECT * FROM turnos WHERE id = '$id' ");
     $row = $rs->fetchArray();
     $db->close();
@@ -16,7 +16,7 @@ function turnos(){
 
     $turnos = [];
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $rs = $db->query("SELECT * FROM turnos");
     while( $row = $rs->fetchArray() ){ $turnos[] = $row; }
     $db->close();
@@ -33,7 +33,7 @@ function reporte_turno($id_turno){
     $efectivo = 0;
     $turno_data = turno($id_turno);
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $rs = $db->query("SELECT * FROM operaciones WHERE turno = '$id_turno' ");
     while( $row = $rs->fetchArray() ){ $operaciones[] = $row; }
     $db->close();

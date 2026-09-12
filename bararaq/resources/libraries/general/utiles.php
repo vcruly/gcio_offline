@@ -9,4 +9,22 @@ function mostrar_alerta($tipo = "success", $mensaje = "<span class='fw-semibold'
 }
 
 
+function versiones(){
+
+    $db = new SQLite3(DATA);
+    $rs = $db->query("select * from versiones");
+    $row = $rs->fetchArray();
+    $db->close();
+
+    return $row;
+}
+
+function actualizarversion($campo, $valor){
+
+   $db = new SQLite3(DATA);
+   $db->exec("update versiones set $campo = $valor");
+   $db->close();
+}
+
+
  ?>

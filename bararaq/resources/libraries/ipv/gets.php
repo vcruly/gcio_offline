@@ -65,7 +65,7 @@ function ipv($post_data){
     # Es decir, cuantas cantidades de x producto en la operacion entrada en tal fecha
     # Sacar tambien el total del primer dia y el total del dia final
 
-    $db = new SQLite3(INVENTARIO);
+    $db = new SQLite3(DATA);
     $db->exec(file_get_contents(LIBRARIES_DIRECTORY."/general/pragmas_sqlite.sql"));
     $db->exec('BEGIN TRANSACTION;');
 
