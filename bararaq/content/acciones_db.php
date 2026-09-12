@@ -52,7 +52,7 @@
 
     if($actualizaciones == ""){
 
-        $actualizaciones = "<li class='d-flex align-items-center mb-2'><span class='ti ti-circle-x fs-lg text-danger me-2'></span> No se ha podido actualizar</li>";
+        $actualizaciones = "<li class='d-flex align-items-center mb-2'><span class='ti ti-check fs-lg text-success me-2'></span> No se ha actualizado. Todo al dia</li>";
     }
  ?>
 
