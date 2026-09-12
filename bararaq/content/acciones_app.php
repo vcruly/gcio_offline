@@ -24,8 +24,8 @@
 
             for($i = 0; $i < count($output); $i++){
 
-                if(!empty($output[$i])){
-                    
+                if( !empty($output[$i]) && !str_contains($output[$i], "vcruly") ){
+
                     echo "<li class='d-flex align-items-center mb-2'><span class='ti ti-check fs-lg text-success me-2'></span> {$output[$i]}</li>";
                 }
 
