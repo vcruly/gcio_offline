@@ -15,14 +15,7 @@
 
             <div class="ms-3">
                 <h5 class="text-uppercase fw-semibold">Actualizacion de la aplicacion</h5>
-                <p class="text-muted mb-0 fs-base">
-                <?php
-
-                    if(empty($output)){ print_r($output); }
-                    else{ echo "No se pudo actualizar. Contacte al soporte o revise su coneccion a internet."; };
-
-                ?>
-                </p>
+                <p class="text-muted mb-0 fs-base">Codigos y componentes del cliente</p>
             </div>
         </div>
 
@@ -31,7 +24,11 @@
 
             for($i = 0; $i < count($output); $i++){
 
-                echo "<li class='d-flex align-items-center mb-2'><span class='ti ti-check fs-lg text-success me-2'></span> {$output[$i]}</li>";
+                if(!empty($output[$i])){
+                    
+                    echo "<li class='d-flex align-items-center mb-2'><span class='ti ti-check fs-lg text-success me-2'></span> {$output[$i]}</li>";
+                }
+
             }
          ?>
          </ul>
