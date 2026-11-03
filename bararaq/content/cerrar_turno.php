@@ -27,7 +27,7 @@
 <div class="card">
 
 <div class="card-header d-flex justify-content-between">
-    <h4 class="card-title">Monto en CUP: <span id="monto" class="text-danger"><?php echo $monto; ?></span></h4>
+    <h4 class="card-title">Monto en CUP (Ventas): <span id="monto" class="text-danger"><?php echo $monto; ?></span></h4>
     <h4 class="card-title">Extracciones: <span class="me-4" id="extracciones">0</span> Restante: <span id="restante"><?php echo $monto; ?></span></h4>
     <input value="1" name="extracciones" hidden="hidden" id="input-extracciones">
 </div>

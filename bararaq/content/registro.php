@@ -10,17 +10,25 @@
 
         <div class="auth-brand text-center mb-4">
             <a href="index.php" class="logo-dark"><img src="assets/images/logos/logo-dark.png" alt="dark logo" height="32"></a>
-            <a href="index.php" class="logo-light"><img src="assets/images/logos/logo-light.png" alt="logo" height="32"></a>
+            <a href="index.php" class="logo-light"><img src="assets/images/logos/logo-dark.png" alt="logo" height="32"></a>
             <h4 class="fw-bold mt-4">Bienvenido</h4>
-            <p id="connection-status-text" class="w-lg-75 mx-auto"></p>
+            <p id="connection-status-text" class="mx-auto"></p>
         </div>
 
-        <form>
+        <form method="post">
             <div class="mb-3">
-            <label class="form-label">Email<span class="text-danger">*</span></label>
+            <label class="form-label">Nombre <span class="text-danger">*</span></label>
+            <div class="input-group">
+                <span class="input-group-text bg-light"><i class="ti ti-user text-muted fs-xl"></i></span>
+                <input type="text" name="nombre" class="form-control" required>
+            </div>
+            </div>
+
+            <div class="mb-3">
+            <label class="form-label">Email <span class="text-danger">*</span></label>
             <div class="input-group">
                 <span class="input-group-text bg-light"><i class="ti ti-mail text-muted fs-xl"></i></span>
-                <input type="email" class="form-control" required>
+                <input type="email" name="email" class="form-control" required>
             </div>
             </div>
 
@@ -28,7 +36,7 @@
             <label class="form-label">Contrase&ntilde;a <span class="text-danger">*</span></label>
             <div class="input-group">
                 <span class="input-group-text bg-light"><i class="ti ti-lock-password text-muted fs-xl"></i></span>
-                <input type="password" class="form-control" required>
+                <input type="text" name="password" class="form-control" required>
             </div>
             </div>
 
@@ -73,11 +81,11 @@
 
     function actualizar_estado(online) {
         if (online) {
-            text.textContent = 'Tiene conexion con el servidor. Se puede proceder con el registro';
+            text.innerHTML = '<div class="alert alert-success text-center" role="alert">Tiene conexion con el servidor. Se puede proceder con el registro</div>';
             text.classList.add("text-success")
             btn_registrar.disabled = false;
         } else {
-            text.textContent = 'Actualmente no tiene conexion. El registro no se podra llevar a cabo';
+            text.innerHTML = '<div class="alert alert-danger text-center" role="alert">Actualmente no tiene conexion. El registro no se podra llevar a cabo</div>';
             text.classList.add("text-danger")
             btn_registrar.disabled = true;
         }
@@ -85,7 +93,7 @@
 
     async function verificarConexionReal() {
         try {
-            const respuesta = await fetch('https://gcio.com/ping.php', {
+            const respuesta = await fetch('https://gcio.net/api/ping', {
                 method: 'HEAD',
                 cache: 'no-store'
             });

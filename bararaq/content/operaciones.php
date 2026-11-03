@@ -150,7 +150,7 @@
 <!-- ?? Datalist global -->
 <datalist id="lista_productos"></datalist>
 
-<input type="text" hidden="hidden" id="area" value="<?php echo $area_data["nombre"]; ?>">
+<input type="text" hidden="hidden" id="area" value="<?php echo $area_data["id"]; ?>">
 
 
 

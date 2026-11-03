@@ -18,7 +18,7 @@ function mercancias(){
 
     $db = new SQLite3(DATA);
     $rs = $db->query("SELECT * FROM mercancias ");
-    while($row = $rs->fetchArray(SQLITE3_ASSOC)){ $mercancias[] = $row; }
+    while($row = $rs->fetchArray(SQLITE3_ASSOC)){ $row["medida"] = medida($row["medida"])["nombre"]; $mercancias[] = $row; }
     $db->close();
 
     return $mercancias;

@@ -12,12 +12,12 @@ function turno($id){
 }
 
 
-function turnos(){
+function turnos($usuario){
 
     $turnos = [];
 
     $db = new SQLite3(DATA);
-    $rs = $db->query("SELECT * FROM turnos");
+    $rs = $db->query("SELECT * FROM turnos WHERE usuario = '$usuario'");
     while( $row = $rs->fetchArray() ){ $turnos[] = $row; }
     $db->close();
 

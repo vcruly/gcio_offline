@@ -6,11 +6,11 @@
 
 #-------------------------------------------------- ACCESS & SECURITY --------------------------------------------------#
 
-    $user_data = access_control(1, 2);
+    $user_data = access_control();
 
 #------------------------------------------------ INIT SCRIPT/PAGE DATA ------------------------------------------------#
 
-    $turnos = turnos();
+    $turnos = turnos($user_data["id"]);
 
     $js_scripts = "";
     $msg = "";
@@ -21,9 +21,8 @@
 if( !empty($_POST["eliminar"]) ){
 
     eliminarTurno($_POST["eliminar"]);
-    $turnos = turnos();
+    $turnos = turnos($user_data["id"]);
     $msg = mostrar_alerta();
-
 }
 
 #------------------------------------------------- STRUCTURE & TEMPLATE ------------------------------------------------#

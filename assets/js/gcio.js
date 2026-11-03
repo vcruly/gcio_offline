@@ -8,7 +8,7 @@
 
 // -------------------------------------------------- GLOBALES --------------------------------------------------
 
-const GCIO_API = window.location.hostname == "http://localhost:1991/api/"
+const GCIO_LOCAL_API = window.location.hostname == "localhost" ? "http://localhost/gcio_offline/api/" : "http://localhost:1991/api/";
 
 jQuery().select2&&$('[data-toggle="select2"]').select2();
 

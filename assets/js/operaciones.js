@@ -152,13 +152,13 @@ function agregarFila() {
         </td>
 
         <td class="d-none"><input type="text" disabled class="id"></td>
-
         <td><input type="text" class="form-control form-control-sm codigo bg-light" readonly></td>
         <td><input type="text" class="form-control form-control-sm medida bg-light" readonly></td>
         <td>
             <input type="number" class="form-control form-control-sm cantidad" value="1" min="0">
             <div class="invalid-feedback">No negativo</div>
         </td>
+
         <td><input type="number" class="form-control form-control-sm costo" min="0"></td>
         <td><input type="number" class="form-control form-control-sm precio" min="0"></td>
         <td><input type="number" class="form-control form-control-sm bg-light importe" readonly></td>
@@ -222,28 +222,29 @@ function enviarDatos(){
     const efectivo = document.getElementById("efectivo").value;
     const transferencia = document.getElementById("transferencia").value;
 
-    let datos = new URLSearchParams();
-    datos.append('request', 'registrar_operacion');
+    const datos = {
+        total: parseFloat(document.getElementById("total").value) || 0,
+        productos: obtenerDatosTabla(),
+        tipo: operacion,
+        moneda: moneda,
+        operador: operador,
+        socio: socio,
+        area: area,
+        transferencia: transferencia,
+        usuario: usuario,
+        efectivo: efectivo,
+        turno: turno,
+        nota: nota
+    };
 
-    datos.append(
-        JSON.stringify({
-            total: parseFloat(document.getElementById("total").value) || 0,
-            productos: obtenerDatosTabla(),
-            tipo: operacion,
-            moneda: moneda,
-            operador: operador,
-            socio: socio,
-            area: area,
-            transferencia: transferencia,
-            efectivo: efectivo,
-            turno: turno,
-            nota: nota
-        })
-    );
-
-    fetch(GCIO_API, { method: "POST", credentials: 'include', body: datos })
+    fetch(GCIO_LOCAL_API + "index.php?request=registrar_operacion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos)
+    })
     .then(res => res.text())
     .then(data => {
+
 
         // Selecciona el modal
         var modal = document.getElementById('guardarOperacion');
@@ -295,8 +296,9 @@ function obtenerDatosTabla(){
     return datos;
 }
 
+
 // ====== NAVEGACI�N ======
-tabla.addEventListener("keydown", (e)=>{
+    tabla.addEventListener("keydown", (e)=>{
 
     const fila = e.target.closest("tr");
     const celdas = Array.from(fila.querySelectorAll("input, select"));

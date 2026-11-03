@@ -4,7 +4,7 @@
 <ol class="breadcrumb m-0 py-0">
     <li class="breadcrumb-item"><a href="<?php echo SITE_HTTP."/index.php"; ?>">Inicio</a></li>
     <li class="breadcrumb-item">Reportes</li>
-    <li style="text-transform: capitalize;" class="breadcrumb-item active"><?php echo $_GET["tipo"]; ?></li>
+    <li style="text-transform: capitalize;" class="breadcrumb-item active">Ventas</li>
 </ol>
 </div>
 </div>
@@ -16,7 +16,7 @@
 
 <div class="d-flex align-items-sm-center flex-sm-row flex-column mb-3">
 <div class="flex-grow-1">
-    <h4 class="fs-xl mb-1">Reportes de <?php echo $_GET["tipo"]; ?></h4>
+    <h4 class="fs-xl mb-1">Reportes de ventas</h4>
     <p class="text-muted mb-0">Datos y estadisticas de las operaciones de la entidad</p>
 </div>
 </div>
@@ -56,7 +56,7 @@
     </div>
 
     <input type="text" hidden="hidden" name="buscar" value="1">
-    <input type="text" hidden="hidden" name="tipo" value="<?php echo $_GET["tipo"]; ?>">
+    <input type="text" hidden="hidden" name="tipo" value="venta">
 
 </div>
 </div>
@@ -101,7 +101,7 @@
                     </div>
                 </td>
                 <td>{$operaciones[$i]["socio"]}</td>
-                <td>{$operaciones[$i]["area"]}</td>
+                <td>{$operaciones[$i]["nombre_area"]}</td>
                 <td>{$operaciones[$i]["operador"]}</td>
                 <td>{$operaciones[$i]["cantidad"]}</td>
                 <td>{$operaciones[$i]["medida"]}</td>

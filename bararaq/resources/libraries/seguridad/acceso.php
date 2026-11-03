@@ -7,7 +7,7 @@ function access_control(...$roles) {
 
         return $user_data;
 
-    }else{ header("location: ".SITE_HTTP."/login.php"); }
+    }else{ header("location: ".SITE_HTTP."/login.php"); exit; }
 }
 
 

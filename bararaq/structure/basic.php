@@ -152,6 +152,10 @@
     </li>
 
     <li class="nav-item ">
+        <a class="nav-link" href="registros.php"><span class="menu-icon"><i class="ti ti-files"></i></span><span class="menu-text">Reportes</span></a>
+    </li>
+
+    <li class="nav-item ">
     <?php
 
         $area_data = area($user_data["area"]);
@@ -163,6 +167,10 @@
         <span class="menu-icon"><i class="ti ti-package-export"></i></span>
         <span class="menu-text">Venta</span>
     </a>
+    </li>
+
+    <li class="nav-item ">
+        <a class="nav-link" href="turnos.php"><span class="menu-icon"><i class="ti ti-calendar-time"></i></span><span class="menu-text">Turnos</span></a>
     </li>
 
 </ul>

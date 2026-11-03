@@ -42,21 +42,23 @@ function registrar_operacion($data){
 
 
     $db = new SQLite3(DATA);
-    $ps = $db->prepare("INSERT INTO operaciones VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    $ps = $db->prepare("INSERT INTO operaciones VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     $ps->bindValue(1, $id, SQLITE3_TEXT);
     $ps->bindValue(2, $data["tipo"], SQLITE3_TEXT);
     $ps->bindValue(3, date('Y-m-d H:i'), SQLITE3_TEXT);
     $ps->bindValue(4, $data["socio"], SQLITE3_TEXT);
     $ps->bindValue(5, $data["area"], SQLITE3_TEXT);
-    $ps->bindValue(6, $data["operador"], SQLITE3_TEXT);
-    $ps->bindValue(7, $data["nota"], SQLITE3_TEXT);
-    $ps->bindValue(8, $data["moneda"], SQLITE3_TEXT);
-    $ps->bindValue(9, $data["total"], SQLITE3_TEXT);
-    $ps->bindValue(10, $data["detalles"] ?? "", SQLITE3_TEXT);
-    $ps->bindValue(11, $data["usuario"] ?? "", SQLITE3_TEXT);
-    $ps->bindValue(12, $data["efectivo"] ?? "", SQLITE3_TEXT);
-    $ps->bindValue(13, $data["transferencia"] ?? "", SQLITE3_TEXT);
-    $ps->bindValue(14, $data["turno"] ?? "", SQLITE3_TEXT);
+    $ps->bindValue(6, area($data["area"])["nombre"], SQLITE3_TEXT);
+    $ps->bindValue(7, $data["operador"], SQLITE3_TEXT);
+    $ps->bindValue(8, $data["nota"], SQLITE3_TEXT);
+    $ps->bindValue(9, $data["moneda"], SQLITE3_TEXT);
+    $ps->bindValue(10, $data["total"], SQLITE3_TEXT);
+    $ps->bindValue(11, $data["detalles"] ?? "", SQLITE3_TEXT);
+    $ps->bindValue(12, $data["usuario"] ?? "", SQLITE3_TEXT);
+    $ps->bindValue(13, $data["efectivo"] ?? "", SQLITE3_TEXT);
+    $ps->bindValue(14, $data["transferencia"] ?? "", SQLITE3_TEXT);
+    $ps->bindValue(15, $data["turno"] ?? "", SQLITE3_TEXT);
+    $ps->bindValue(16, "", SQLITE3_TEXT);
     $ps->execute();
     $db->close();
 
@@ -149,6 +151,73 @@ for($i = 0; $i < count($productos); $i++){
 
     $db->exec('COMMIT;');
     $db->close();
+}
+
+
+#El endpoint debe confirmar cada operacion con {"success":true}.
+#Se envia como formulario: request=sinc y datos[...], incluidos datos[productos].
+function sincronizar_operaciones(){
+
+    $resultado = ["sincronizadas" => 0, "pendientes" => 0, "error" => ""];
+    $db = new SQLite3(DATA);
+    $db->enableExceptions(true);
+    $db->busyTimeout(5000);
+
+    try {
+        $rs = $db->query("SELECT * FROM operaciones WHERE sincronizada IS NULL OR TRIM(sincronizada) = ''");
+        $operaciones = [];
+        while($operacion = $rs->fetchArray(SQLITE3_ASSOC)){
+            $operaciones[] = $operacion;
+        }
+        $rs->finalize();
+        $resultado["pendientes"] = count($operaciones);
+
+        foreach($operaciones as $operacion){
+            $ps = $db->prepare("SELECT * FROM productos_operaciones WHERE operacion = :id");
+            $ps->bindValue(":id", $operacion["id"], SQLITE3_TEXT);
+            $rs = $ps->execute();
+            $operacion["productos"] = [];
+            while($producto = $rs->fetchArray(SQLITE3_ASSOC)){
+                $operacion["productos"][] = $producto;
+            }
+            $rs->finalize();
+            $ps->close();
+
+            $ch = curl_init(API_GCIO);
+            curl_setopt_array($ch, [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query(["request" => "sinc", "datos" => $operacion]),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_TIMEOUT => 30
+            ]);
+            $respuesta = curl_exec($ch);
+            $estado = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            $confirmacion = $respuesta === false ? null : json_decode($respuesta, true);
+
+            if($respuesta === false || $estado < 200 || $estado >= 300 ||
+                !is_array($confirmacion) || ($confirmacion["success"] ?? null) !== true){
+                $resultado["error"] = "El servidor no confirmo la sincronizacion. Las operaciones pendientes se conservan para reintentar.";
+                break;
+            }
+
+            $ps = $db->prepare("UPDATE operaciones SET sincronizada = :fecha WHERE id = :id AND (sincronizada IS NULL OR TRIM(sincronizada) = '')");
+            $ps->bindValue(":fecha", date("Y-m-d H:i:s"), SQLITE3_TEXT);
+            $ps->bindValue(":id", $operacion["id"], SQLITE3_TEXT);
+            $ps->execute();
+            $ps->close();
+            $resultado["sincronizadas"]++;
+            $resultado["pendientes"]--;
+        }
+    } catch(Throwable $error){
+        error_log("Sincronizacion de operaciones: ".$error->getMessage());
+        $resultado["error"] = "No se pudo completar la sincronizacion. Vuelva a intentarlo.";
+    } finally {
+        $db->close();
+    }
+
+    return $resultado;
 }
 
 

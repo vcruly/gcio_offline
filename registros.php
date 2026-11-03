@@ -13,7 +13,7 @@
     $mercancias = mercancias();
     $categorias = categorias();
     $operaciones = [];
-    $areas = areas();
+    $area = area($user_data["area"])["nombre"];
     $monedas = monedas();
     $socios = socios();
 
@@ -22,7 +22,7 @@
 
 #--------------------------------------------------- FUNCTIONALITIES ---------------------------------------------------#
 
-if( !empty($_POST["buscar"]) ){ $operaciones = buscar_operaciones($_POST); }
+if( !empty($_POST["buscar"]) ){ $operaciones = buscar_operaciones($_POST, $user_data["area"]); }
 
 #------------------------------------------------- STRUCTURE & TEMPLATE ------------------------------------------------#
 

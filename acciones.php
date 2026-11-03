@@ -26,7 +26,10 @@ if(!empty($_GET["x"])){
         case "app": exec("cmd /c C:/GCIO/scripts/actualizar.bat 2>&1", $output); $content = "acciones_app.php"; break;
 
         #Sincronizar el registro de operaciones locales con la nube
-        case "sinc": $content = "acciones_sinc.php"; break;
+        case "sinc":
+            $content = "acciones_sinc.php";
+            $resultado_sinc = sincronizar_operaciones();
+            break;
 
         #Actualizar la base de datos. Listado de mercancias, medidas, socios
         case "db":
